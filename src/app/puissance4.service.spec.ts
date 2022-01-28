@@ -22,6 +22,39 @@ describe('Puissance4Service test init', () => {
     expect( service.board ).toBe( b );
   });
 
+  it("should throw error if array is empty", () => {
+    const b: Board = {width:1, height:1, data: []};
+    const R = service.init(b);
+    expect( R.error ).toEqual('invalid data');
+    expect( service.board ).toBeUndefined();
+  });
+
+  it("should be valide if x = y = 5", () => {
+    const b: Board = {width: 5, height: 5, data: [[], [], [], [], []]};
+    const R = service.init(b);
+    expect( R.error ).toBeUndefined();
+    expect( service.board ).toBe( b );
+  });
+
+  it("should return an error if x || y <= 0", () => {
+    const b: Board = {width: 0, height: 0, data: []};
+    const R = service.init(b);
+    expect( R.error ).toEqual('invalid magnitudes');
+    expect( service.board ).toBeUndefined();
+  });
+
+  it("should throw an error if data don't have the same length", () => {
+    const b: Board = {width: 5, height: 5, data: [[], [], [], []]};
+    const R = service.init(b);
+    expect( R.error ).toEqual('invalid data');
+    expect( service.board ).toBeUndefined();
+  });
+  
+  it("should throw an error if there is to many tokens", () => {
+    const b: Board = {width: 5, height:6, data: [['RED','RED','RED','YELLOW','YELLOW','RED','RED'], [], [], [], [], [], []]};
+    const R = service.init(b);
+    expect( R.error ).toEqual('invalid data');
+    expect( service.board ).toBeUndefined();
 });
 
 describe('Puissance4Service test play', () => {
