@@ -231,10 +231,251 @@ describe('Puissance4Service test play', () => {
     service = TestBed.inject(Puissance4Service);
   });
 
+  /**
+   * Should work
+   */
+  it("should play red if bord is empty", () => {
+    service.init(empty7x5);
+    const R = service.play('RED', 1);
+    expect(R.error).toBeUndefined();
+    expect(service.board.data[0][0]).toEqual('RED');
+  });
+
+  it("should play yellow if bord contain one red token", () => {
+    const gb2 = genBoard(` |
+                           |
+                           |
+                           |
+                           |
+                           |R
+                           |-------`);
+    if (gb2.error === undefined) {
+      service.init(gb2.board);
+      const R = service.play('YELLOW', 2);
+      expect(R.error).toBeUndefined();
+      expect(service.board.data[0][1]).toEqual('YELLOW');
+    }
+
+    it("should play yellow on same column as red", () => {
+      const gb2 = genBoard(` |
+                             |
+                             |
+                             |
+                             |
+                             |R
+                             |-------`);
+      if (gb2.error === undefined) {
+        service.init(gb2.board);
+        const R = service.play('YELLOW', 0);
+        expect(R.error).toBeUndefined();
+        expect(service.board.data[0][1]).toEqual('YELLOW');
+      }
+    });
+
+    it('should be possible to play yellow if multiple red are on the board',  () => {
+      const gb2 = genBoard(` |
+                             |
+                             |
+                             |
+                             |Y
+                             |RR
+                             |-------`);
+      if (gb2.error === undefined) {
+        service.init(gb2.board);
+        const R = service.play('YELLOW', 2);
+        expect(R.error).toBeUndefined();
+        expect(service.board.data[0][1]).toEqual('YELLOW');
+      }
+    });
+
+    it("should be possible to play red if there are same number of yellow than red", () => {
+      const gb2 = genBoard(` |
+                             |
+                             |
+                             |
+                             |YY
+                             |RR
+                             |-------`);
+      if (gb2.error === undefined) {
+        service.init(gb2.board);
+        const R = service.play('RED', 2);
+        expect(R.error).toBeUndefined();
+        expect(service.board.data[0][1]).toEqual('RED');
+      }
+    });
+
+    it("should be possible to play red if a column is almost full", () => {
+      const gb2 = genBoard(` |
+                             |Y
+                             |R
+                             |Y
+                             |R
+                             |Y
+                             |R
+                             |-------`);
+      if (gb2.error === undefined) {
+        service.init(gb2.board);
+        const R = service.play('RED', 0);
+        expect(R.error).toBeUndefined();
+        expect(service.board.data[0][1]).toEqual('RED');
+      }
+    });
+
+    it("should be possible to play yellow if a column is almost full", () => {
+      const gb2 = genBoard(` |
+                             |R
+                             |Y
+                             |R
+                             |Y
+                             |R
+                             |YR
+                             |-------`);
+      if (gb2.error === undefined) {
+        service.init(gb2.board);
+        const R = service.play('YELLOW', 0);
+        expect(R.error).toBeUndefined();
+        expect(service.board.data[0][1]).toEqual('RED');
+      }
+    });
+
+    it('should be possible to play at the last column', ()=> {
+      const gb2 = genBoard(` |
+                             |
+                             |
+                             |
+                             |
+                             |
+                             |R
+                             |-------`);
+      if (gb2.error === undefined) {
+        service.init(gb2.board);
+        const R = service.play('YELLOW', 6);
+        expect(R.error).toBeUndefined();
+        expect(service.board.data[0][5]).toEqual('YELLOW');
+      }
+    });
+
+  });
+
+  /**
+   * Should return an error
+   */
+  //out of range errors
+  it("sould not be possible to play in negative column", () => {
+      service.init(empty7x5);
+      const R = service.play('RED', -1);
+      expect(R.error).toEqual('out of range');
+  });
+
+  it("sould not be possible to play in column 7", () => {
+      service.init(empty7x5);
+      const R = service.play('RED', 7);
+      expect(R.error).toEqual('out of range');
+  });
+
+  //column full errors
+  it("should not be possible to play in colum that's alredy full for yellow", () => {
+    const gb2 = genBoard(` |R
+                           |Y
+                           |R
+                           |Y
+                           |R
+                           |Y
+                           |R
+                           |-------`);
+    if (gb2.error === undefined) {
+      service.init(gb2.board);
+      const R = service.play('YELLOW', 0);
+      expect(R.error).toEqual('column is full');
+    }
+  });
+
+  it("should not be possible to play in column that's already full for red", () => {
+    const gb2 = genBoard(` |R
+                           |Y
+                           |R
+                           |Y
+                           |R
+                           |Y
+                           |RY
+                           |-------`);
+    if (gb2.error === undefined) {
+      service.init(gb2.board);
+      const R = service.play('RED', 0);
+      expect(R.error).toEqual('column is full');
+    }
+  });
+
+
+  // Turn errors
   it("should not be possible to start with YELLOW", () => {
     service.init(empty7x5);
     const res = service.play('YELLOW', 1);
     expect(res.error).toEqual("not your turn");
+  });
+
+  it("should not be possible to play with red if number of yellow is less than yellow", () => {
+    const gb2 = genBoard(` |
+                           |
+                           |
+                           |R
+                           |YR
+                           |YY
+                           |RR
+                           |-------`);
+    if (gb2.error === undefined) {
+      service.init(gb2.board);
+      const R = service.play('RED', 2);
+      expect(R.error).toEqual("not your turn");
+    }
+  });
+
+  it("should not be possible to play with yellow if number of red is less than red", () => {
+    const gb2 = genBoard(` |
+                           |
+                           |
+                           |
+                           |YR
+                           |RY
+                           |YR
+                           |-------`);
+    if (gb2.error === undefined) {
+      service.init(gb2.board);
+      const R = service.play('YELLOW', 2);
+      expect(R.error).toEqual("not your turn");
+    }
+  });
+
+  it("should not be possible to play if yellow and red are'nt equal", () => {
+    const gb2 = genBoard(` |
+                           |
+                           |
+                           |
+                           |YR
+                           |RY
+                           |RR
+                           |-------`);
+    if (gb2.error === undefined) {
+      service.init(gb2.board);
+      const R = service.play('YELLOW', 2);
+      expect(R.error).toEqual("not your turn");
+    }
+  });
+
+  it("should not be possible to play if yellow and red aren't equal", () => {
+    const gb2 = genBoard(` |
+                           |
+                           |
+                           |
+                           |YR
+                           |RY
+                           |RR
+                           |-------`);
+    if (gb2.error === undefined) {
+      service.init(gb2.board);
+      const R = service.play('RED', 2);
+      expect(R.error).toEqual("not your turn");
+    }
   });
 
 });
