@@ -115,6 +115,20 @@ describe('Puissance4Service test init', () => {
     expect(service.board).toBe(b);
   });
 
+  it("should init a bord that conatain more than 4 algin token", () => {
+    const b: Board = {
+      width: 5, height: 5, data: [
+        ['YELLOW', 'RED', 'RED', 'RED', 'RED', 'RED'],
+        ['YELLOW', 'YELLOW', 'YELLOW', 'YELLOW'],
+        ['YELLOW', 'RED', 'RED', 'RED', 'RED', 'RED'],
+        ['YELLOW', 'YELLOW', 'YELLOW', 'RED'],
+        ['YELLOW', 'YELLOW', 'YELLOW', 'RED']]
+    }
+    const R = service.init(b);
+    expect(R.error).toBeUndefined();
+    expect(service.board).toBe(b);
+  });
+
   /**
    * Should throw errors
    */
