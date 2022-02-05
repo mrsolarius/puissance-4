@@ -18,195 +18,271 @@ describe('Puissance4Service test init', () => {
   /**
    * Should WORK !
    */
-  //Should work if bord is empty
+  describe("should work", () => {
+    //Should work if bord is empty
+    it("should init if x = y = 5", () => {
+      const b: Board = {width: 5, height: 5, data: [[], [], [], [], []]};
+      const R = service.init(b);
+      expect(R.error).toBeUndefined();
+      expect(service.board).toBe(b);
+    });
 
-  it("should init if x = y = 5", () => {
-    const b: Board = {width: 5, height: 5, data: [[], [], [], [], []]};
-    const R = service.init(b);
-    expect(R.error).toBeUndefined();
-    expect(service.board).toBe(b);
-  });
+    it("should init an empty 7x5", () => {
+      const b: Board = {width: 7, height: 5, data: [[], [], [], [], [], [], []]};
+      const R = service.init(b);
+      expect(R.error).toBeUndefined();
+      expect(service.board).toBe(b);
+    });
 
-  it("should init an empty 7x5", () => {
-    const b: Board = {width: 7, height: 5, data: [[], [], [], [], [], [], []]};
-    const R = service.init(b);
-    expect(R.error).toBeUndefined();
-    expect(service.board).toBe(b);
-  });
+    //Should work if bord is not empty
+    it("should init a bord that contain only one token", () => {
+      const b: Board = {width: 7, height: 5, data: [['RED'], [], [], [], [], [], []]};
+      const R = service.init(b);
+      expect(R.error).toBeUndefined();
+      expect(service.board).toBe(b);
+    });
 
-  //Should work if bord is not empty
-  it("should init a bord that contain only one token", () => {
-    const b: Board = {width: 7, height: 5, data: [['RED'], [], [], [], [], [], []]};
-    const R = service.init(b);
-    expect(R.error).toBeUndefined();
-    expect(service.board).toBe(b);
-  });
+    it("should init a bord that is 1 by 1", () => {
+      const b: Board = {width: 1, height: 1, data: [['RED']]};
+      const R = service.init(b);
+      expect(R.error).toBeUndefined();
+      expect(service.board).toBe(b);
+    });
 
-  it("should init a bord that is 1 by 1", () => {
-    const b: Board = {width: 1, height: 1, data: [['RED']]};
-    const R = service.init(b);
-    expect(R.error).toBeUndefined();
-    expect(service.board).toBe(b);
-  });
+    it("should init a board that contain token without special case", () => {
+      const b: Board = {
+        width: 4, height: 5, data: [
+          ['RED', 'RED', 'RED', 'YELLOW', 'YELLOW'],
+          ['YELLOW', 'RED', 'YELLOW', 'YELLOW'],
+          ['YELLOW', 'RED', 'RED'],
+          ['RED', 'YELLOW']]
+      }
+      const R = service.init(b);
+      expect(R.error).toBeUndefined();
+      expect(service.board).toBe(b);
+    });
 
-  it("should init a board that contain token without special case", () => {
-    const b: Board = {
-      width: 4, height: 5, data: [
-        ['RED', 'RED', 'RED', 'YELLOW', 'YELLOW'],
-        ['YELLOW', 'RED', 'YELLOW', 'YELLOW'],
-        ['YELLOW', 'RED', 'RED'],
-        ['RED', 'YELLOW']]
-    }
-    const R = service.init(b);
-    expect(R.error).toBeUndefined();
-    expect(service.board).toBe(b);
-  });
+    //Should work if bord is not empty and contain special case
+    it("should init a bord that contain an horizontal puissance 4", () => {
+      const b: Board = {
+        width: 4, height: 5, data: [
+          ['RED', 'RED', 'RED', 'YELLOW', 'YELLOW'],
+          ['YELLOW', 'RED', 'YELLOW', 'YELLOW'],
+          ['YELLOW', 'RED', 'RED', 'YELLOW'],
+          ['RED', 'RED', 'YELLOW']]
+      }
+      const R = service.init(b);
+      expect(R.error).toBeUndefined();
+      expect(service.board).toBe(b);
+    });
 
-  //Should work if bord is not empty and contain special case
-  it("should init a bord that contain an horizontal puissance 4", () => {
-    const b: Board = {
-      width: 4, height: 5, data: [
-        ['RED', 'RED', 'RED', 'YELLOW', 'YELLOW'],
-        ['YELLOW', 'RED', 'YELLOW', 'YELLOW'],
-        ['YELLOW', 'RED', 'RED', 'YELLOW'],
-        ['RED', 'RED', 'YELLOW']]
-    }
-    const R = service.init(b);
-    expect(R.error).toBeUndefined();
-    expect(service.board).toBe(b);
-  });
+    it("should init a bord that contain an vertical puissance 4", () => {
+      const b: Board = {
+        width: 4, height: 5, data: [
+          ['RED', 'RED', 'RED', 'RED'],
+          ['YELLOW', 'RED', 'YELLOW', 'YELLOW'],
+          ['YELLOW', 'RED', 'RED', 'YELLOW'],
+          ['RED', 'YELLOW', 'YELLOW', 'YELLOW']]
+      }
+      const R = service.init(b);
+      expect(R.error).toBeUndefined();
+      expect(service.board).toBe(b);
+    });
 
-  it("should init a bord that contain an vertical puissance 4", () => {
-    const b: Board = {
-      width: 4, height: 5, data: [
-        ['RED', 'RED', 'RED', 'RED'],
-        ['YELLOW', 'RED', 'YELLOW', 'YELLOW'],
-        ['YELLOW', 'RED', 'RED', 'YELLOW'],
-        ['RED', 'YELLOW', 'YELLOW', 'YELLOW']]
-    }
-    const R = service.init(b);
-    expect(R.error).toBeUndefined();
-    expect(service.board).toBe(b);
-  });
+    it("should init a bord that contain an diagonal puissance 4", () => {
+      const b: Board = {
+        width: 4, height: 5, data: [
+          ['RED', 'RED', 'RED', 'RED'],
+          ['YELLOW', 'RED', 'YELLOW', 'YELLOW'],
+          ['YELLOW', 'RED', 'RED', 'YELLOW'],
+          ['YELLOW', 'YELLOW', 'YELLOW', 'RED']]
+      }
+      const R = service.init(b);
+      expect(R.error).toBeUndefined();
+      expect(service.board).toBe(b);
+    });
 
-  it("should init a bord that contain an diagonal puissance 4", () => {
-    const b: Board = {
-      width: 4, height: 5, data: [
-        ['RED', 'RED', 'RED', 'RED'],
-        ['YELLOW', 'RED', 'YELLOW', 'YELLOW'],
-        ['YELLOW', 'RED', 'RED', 'YELLOW'],
-        ['YELLOW', 'YELLOW', 'YELLOW', 'RED']]
-    }
-    const R = service.init(b);
-    expect(R.error).toBeUndefined();
-    expect(service.board).toBe(b);
-  });
+    it("should init a bord that contain an multiple puissance 4", () => {
+      const b: Board = {
+        width: 4, height: 5, data: [
+          ['YELLOW', 'RED', 'RED', 'RED', 'RED'],
+          ['YELLOW', 'YELLOW', 'YELLOW', 'YELLOW'],
+          ['YELLOW', 'RED', 'RED', 'RED', 'RED'],
+          ['YELLOW', 'YELLOW', 'YELLOW', 'RED']]
+      }
+      const R = service.init(b);
+      expect(R.error).toBeUndefined();
+      expect(service.board).toBe(b);
+    });
 
-  it("should init a bord that contain an multiple puissance 4", () => {
-    const b: Board = {
-      width: 4, height: 5, data: [
-        ['YELLOW', 'RED', 'RED', 'RED', 'RED'],
-        ['YELLOW', 'YELLOW', 'YELLOW', 'YELLOW'],
-        ['YELLOW', 'RED', 'RED', 'RED', 'RED'],
-        ['YELLOW', 'YELLOW', 'YELLOW', 'RED']]
-    }
-    const R = service.init(b);
-    expect(R.error).toBeUndefined();
-    expect(service.board).toBe(b);
-  });
+    it("should init a bord that conatain more than 4 algin token", () => {
+      const b: Board = {
+        width: 5, height: 5, data: [
+          ['YELLOW', 'RED', 'RED', 'RED', 'RED', 'RED'],
+          ['YELLOW', 'YELLOW', 'YELLOW', 'YELLOW'],
+          ['YELLOW', 'RED', 'RED', 'RED', 'RED', 'RED'],
+          ['YELLOW', 'YELLOW', 'YELLOW', 'RED'],
+          ['YELLOW', 'YELLOW', 'YELLOW', 'RED']]
+      }
+      const R = service.init(b);
+      expect(R.error).toBeUndefined();
+      expect(service.board).toBe(b);
+    });
 
-  it("should init a bord that conatain more than 4 algin token", () => {
-    const b: Board = {
-      width: 5, height: 5, data: [
-        ['YELLOW', 'RED', 'RED', 'RED', 'RED', 'RED'],
-        ['YELLOW', 'YELLOW', 'YELLOW', 'YELLOW'],
-        ['YELLOW', 'RED', 'RED', 'RED', 'RED', 'RED'],
-        ['YELLOW', 'YELLOW', 'YELLOW', 'RED'],
-        ['YELLOW', 'YELLOW', 'YELLOW', 'RED']]
-    }
-    const R = service.init(b);
-    expect(R.error).toBeUndefined();
-    expect(service.board).toBe(b);
+    it("should init a bord if there is 1 more yellow token than the red", () => {
+      const b: Board = {
+        width: 5, height: 5, data: [
+          ['YELLOW', 'RED', 'RED', 'RED', 'RED', 'RED'],
+          ['YELLOW', 'YELLOW', 'YELLOW', 'YELLOW'],
+          ['YELLOW', 'RED', 'RED', 'RED', 'RED', 'RED'],
+          ['YELLOW', 'YELLOW', 'YELLOW', 'RED'],
+          ['YELLOW', 'YELLOW', 'YELLOW', 'RED'],
+          ['YELLOW', 'YELLOW', 'RED', 'RED']]
+      }
+      const R = service.init(b);
+      expect(R.error).toBeUndefined();
+      expect(service.board).toBe(b);
+    });
   });
 
   /**
    * Should throw errors
    */
-  //Check invalide magnitude
-  //Check invalide data
-  it("should throw error if array is empty", () => {
-    const b: Board = {width: 1, height: 1, data: []};
-    const R = service.init(b);
-    expect(R.error).toEqual('invalid magnitudes');
-    expect(service.board).toBeUndefined();
-  });
+  describe("should throw errors", () => {
+    describe("should throw `invalid magnitudes` errors", () => {
+      //Check invalide magnitude
+      it("should throw error if array is empty", () => {
+        const b: Board = {width: 1, height: 1, data: []};
+        const R = service.init(b);
+        expect(R.error).toEqual('invalid magnitudes');
+        expect(service.board).toBeUndefined();
+      });
 
-  it("should throw an error if data don't have the same length", () => {
-    const b: Board = {width: 5, height: 5, data: [[], [], [], []]};
-    const R = service.init(b);
-    expect(R.error).toEqual('invalid data');
-    expect(service.board).toBeUndefined();
-  });
+      it("should throw error if array is empty with big width and height", () => {
+        const b: Board = {width: 5, height: 5, data: []};
+        const R = service.init(b);
+        expect(R.error).toEqual('invalid magnitudes');
+        expect(service.board).toBeUndefined();
+      });
 
-  it("should throw error if array is empty with big width and height", () => {
-    const b: Board = {width: 5, height: 5, data: []};
-    const R = service.init(b);
-    expect(R.error).toEqual('invalid magnitudes');
-    expect(service.board).toBeUndefined();
-  });
+      it("should throw error if width dimension are smaller than array length", () => {
+        const b: Board = {width: 4, height: 5, data: [['RED'], ['YELLOW']]};
+        const R = service.init(b);
+        expect(R.error).toEqual('invalid magnitudes');
+        expect(service.board).toBeUndefined();
+      });
 
-  it("should throw error if width dimension are smaller than array length", () => {
-    const b: Board = {width: 4, height: 5, data: [['RED'], ['YELLOW']]};
-    const R = service.init(b);
-    expect(R.error).toEqual('invalid magnitudes');
-    expect(service.board).toBeUndefined();
-  });
+      it("should throw error if height dimension are smaller than array column length", () => {
+        const b: Board = {
+          width: 5,
+          height: 4,
+          data: [['RED', 'YELLOW', 'RED', 'YELLOW', 'YELLOW'], ['YELLOW'], [], [], ['RED']]
+        };
+        const R = service.init(b);
+        expect(R.error).toEqual('invalid magnitudes');
+        expect(service.board).toBeUndefined();
+      });
 
-  it("should throw error if height dimension are smaller than array column length", () => {
-    const b: Board = {
-      width: 5,
-      height: 4,
-      data: [['RED', 'YELLOW', 'RED', 'YELLOW', 'YELLOW'], ['YELLOW'], [], [], ['RED']]
-    };
-    const R = service.init(b);
-    expect(R.error).toEqual('invalid magnitudes');
-    expect(service.board).toBeUndefined();
-  });
+      it("should throw error if both dimensions are smaller than array length", () => {
+        const b: Board = {width: 4, height: 3, data: [['RED', 'YELLOW', 'RED', 'YELLOW'], ['YELLOW']]};
+        const R = service.init(b);
+        expect(R.error).toEqual('invalid magnitudes');
+        expect(service.board).toBeUndefined();
+      });
 
-  it("should throw error if both dimensions are smaller than array length", () => {
-    const b: Board = {width: 4, height: 3, data: [['RED', 'YELLOW', 'RED', 'YELLOW'], ['YELLOW']]};
-    const R = service.init(b);
-    expect(R.error).toEqual('invalid magnitudes');
-    expect(service.board).toBeUndefined();
-  });
+      //Check invalide dimensions
+      it("should throw error if width is negative", () => {
+        const b: Board = {width: -2, height: 5, data: [['RED'], []]};
+        const R = service.init(b);
+        expect(R.error).toEqual('invalid magnitudes');
+        expect(service.board).toBeUndefined();
+      });
 
-  //Check invalide dimensions
-  it("should throw error if width is negative", () => {
-    const b: Board = {width: -2, height: 5, data: [['RED'], []]};
-    const R = service.init(b);
-    expect(R.error).toEqual('invalid magnitudes');
-    expect(service.board).toBeUndefined();
-  });
+      it("should throw error if height is negative", () => {
+        const b: Board = {width: 2, height: -5, data: [['RED'], []]};
+        const R = service.init(b);
+        expect(R.error).toEqual('invalid magnitudes');
+        expect(service.board).toBeUndefined();
+      });
 
-  it("should throw error if height is negative", () => {
-    const b: Board = {width: 2, height: -5, data: [['RED'], []]};
-    const R = service.init(b);
-    expect(R.error).toEqual('invalid magnitudes');
-    expect(service.board).toBeUndefined();
-  });
+      it("should return an error if x || y <= 0", () => {
+        const b: Board = {width: 0, height: 0, data: []};
+        const R = service.init(b);
+        expect(R.error).toEqual('invalid magnitudes');
+        expect(service.board).toBeUndefined();
+      });
 
-  it("should return an error if x || y <= 0", () => {
-    const b: Board = {width: 0, height: 0, data: []};
-    const R = service.init(b);
-    expect(R.error).toEqual('invalid magnitudes');
-    expect(service.board).toBeUndefined();
-  });
+      it("should throw an error if both height and with are negative", () => {
+        const b: Board = {width: -2, height: -5, data: [[], []]};
+        const R = service.init(b);
+        expect(R.error).toEqual('invalid magnitudes');
+        expect(service.board).toBeUndefined();
+      });
+    });
+    describe("should throw `invalid data` errors", () => {
+      //Check invalide data
+      it("should throw an error if data don't have the same length", () => {
+        const b: Board = {width: 5, height: 5, data: [[], [], [], []]};
+        const R = service.init(b);
+        expect(R.error).toEqual('invalid data');
+        expect(service.board).toBeUndefined();
+      });
 
-  it("should throw an error if both height and with are negative", () => {
-    const b: Board = {width: -2, height: -5, data: [[], []]};
-    const R = service.init(b);
-    expect(R.error).toEqual('invalid magnitudes');
-    expect(service.board).toBeUndefined();
+      it("should throw an error if total of red and yellow token are different", () => {
+        const b: Board = {
+          width: 5, height: 5, data: [
+            ['RED', 'YELLOW', 'RED', 'YELLOW', 'YELLOW'],
+            ['YELLOW', 'RED', 'RED', 'RED', 'RED'],
+            ['YELLOW', 'YELLOW', 'YELLOW', 'RED'],
+            ['YELLOW', 'YELLOW', 'YELLOW', 'RED']]
+        };
+        const R = service.init(b);
+        expect(R.error).toEqual('invalid data');
+        expect(service.board).toBeUndefined();
+      });
+
+      it("should throw an error if there is two more red token than yellow one", () => {
+        const b: Board = {
+          width: 5, height: 5, data: [
+            ['RED', 'YELLOW', 'RED', 'YELLOW', 'YELLOW'],
+            ['YELLOW', 'RED', 'RED', 'RED', 'RED'],
+            ['YELLOW', 'YELLOW', 'YELLOW', 'RED'],
+            ['YELLOW', 'YELLOW', 'YELLOW', 'RED'],
+            ['RED', 'RED', 'RED', 'RED']]
+        };
+        const R = service.init(b);
+        expect(R.error).toEqual('invalid data');
+        expect(service.board).toBeUndefined();
+      });
+
+      it("should throw an error if the bord is full of red token", () => {
+        const b: Board = {
+          width: 5, height: 5, data: [
+            ['RED', 'RED', 'RED', 'RED', 'RED'],
+            ['RED', 'RED', 'RED', 'RED', 'RED'],
+            ['RED', 'RED', 'RED', 'RED', 'RED'],
+            ['RED', 'RED', 'RED', 'RED', 'RED'],
+            ['RED', 'RED', 'RED', 'RED', 'RED']]
+        };
+        const R = service.init(b);
+        expect(R.error).toEqual('invalid data');
+        expect(service.board).toBeUndefined();
+      });
+
+      it("should throw an error if the board is full of yellow token", () => {
+        const b: Board = {
+          width: 5, height: 5, data: [
+            ['YELLOW', 'YELLOW', 'YELLOW', 'YELLOW', 'YELLOW'],
+            ['YELLOW', 'YELLOW', 'YELLOW', 'YELLOW', 'YELLOW'],
+            ['YELLOW', 'YELLOW', 'YELLOW', 'YELLOW', 'YELLOW'],
+            ['YELLOW', 'YELLOW', 'YELLOW', 'YELLOW', 'YELLOW'],
+            ['YELLOW', 'YELLOW', 'YELLOW', 'YELLOW', 'YELLOW']]
+        };
+        const R = service.init(b);
+        expect(R.error).toEqual('invalid data');
+        expect(service.board).toBeUndefined();
+      });
+    });
   });
 });
 
@@ -234,27 +310,29 @@ describe('Puissance4Service test play', () => {
   /**
    * Should work
    */
-  it("should play red if bord is empty", () => {
-    service.init(empty7x5);
-    const R = service.play('RED', 1);
-    expect(R.error).toBeUndefined();
-    expect(service.board.data[0][0]).toEqual('RED');
-  });
+  describe("should work", () => {
+    it("should play red if bord is empty", () => {
+      service.init(empty7x5);
+      const R = service.play('RED', 1);
+      expect(R.error).toBeUndefined();
+      expect(service.board.data[0][0]).toEqual('RED');
+    });
 
-  it("should play yellow if bord contain one red token", () => {
-    const gb2 = genBoard(` |
+    it("should play yellow if bord contain one red token", () => {
+      const gb2 = genBoard(` |
                            |
                            |
                            |
                            |
                            |R
                            |-------`);
-    if (gb2.error === undefined) {
-      service.init(gb2.board);
-      const R = service.play('YELLOW', 2);
-      expect(R.error).toBeUndefined();
-      expect(service.board.data[0][1]).toEqual('YELLOW');
-    }
+      if (gb2.error === undefined) {
+        service.init(gb2.board);
+        const R = service.play('YELLOW', 2);
+        expect(R.error).toBeUndefined();
+        expect(service.board.data[0][1]).toEqual('YELLOW');
+      }
+    });
 
     it("should play yellow on same column as red", () => {
       const gb2 = genBoard(` |
@@ -272,7 +350,7 @@ describe('Puissance4Service test play', () => {
       }
     });
 
-    it('should be possible to play yellow if multiple red are on the board',  () => {
+    it('should be possible to play yellow if multiple red are on the board', () => {
       const gb2 = genBoard(` |
                              |
                              |
@@ -338,7 +416,7 @@ describe('Puissance4Service test play', () => {
       }
     });
 
-    it('should be possible to play at the last column', ()=> {
+    it('should be possible to play at the last column', () => {
       const gb2 = genBoard(` |
                              |
                              |
@@ -354,28 +432,29 @@ describe('Puissance4Service test play', () => {
         expect(service.board.data[0][5]).toEqual('YELLOW');
       }
     });
-
   });
-
   /**
    * Should return an error
    */
   //out of range errors
-  it("sould not be possible to play in negative column", () => {
-      service.init(empty7x5);
-      const R = service.play('RED', -1);
-      expect(R.error).toEqual('out of range');
-  });
+  describe("should throw errors",()=> {
+    describe("should throw `out of range` errors", () => {
+      it("sould not be possible to play in negative column", () => {
+        service.init(empty7x5);
+        const R = service.play('RED', -1);
+        expect(R.error).toEqual('out of range');
+      });
 
-  it("sould not be possible to play in column 7", () => {
-      service.init(empty7x5);
-      const R = service.play('RED', 7);
-      expect(R.error).toEqual('out of range');
-  });
+      it("sould not be possible to play in column 7", () => {
+        service.init(empty7x5);
+        const R = service.play('RED', 7);
+        expect(R.error).toEqual('out of range');
+      });
+    });
 
-  //column full errors
-  it("should not be possible to play in colum that's alredy full for yellow", () => {
-    const gb2 = genBoard(` |R
+    describe("should throw `column is full` errors", () => {
+      it("should not be possible to play in colum that's alredy full for yellow", () => {
+        const gb2 = genBoard(` |R
                            |Y
                            |R
                            |Y
@@ -383,15 +462,15 @@ describe('Puissance4Service test play', () => {
                            |Y
                            |R
                            |-------`);
-    if (gb2.error === undefined) {
-      service.init(gb2.board);
-      const R = service.play('YELLOW', 0);
-      expect(R.error).toEqual('column is full');
-    }
-  });
+        if (gb2.error === undefined) {
+          service.init(gb2.board);
+          const R = service.play('YELLOW', 0);
+          expect(R.error).toEqual('column is full');
+        }
+      });
 
-  it("should not be possible to play in column that's already full for red", () => {
-    const gb2 = genBoard(` |R
+      it("should not be possible to play in column that's already full for red", () => {
+        const gb2 = genBoard(` |R
                            |Y
                            |R
                            |Y
@@ -399,23 +478,23 @@ describe('Puissance4Service test play', () => {
                            |Y
                            |RY
                            |-------`);
-    if (gb2.error === undefined) {
-      service.init(gb2.board);
-      const R = service.play('RED', 0);
-      expect(R.error).toEqual('column is full');
-    }
-  });
+        if (gb2.error === undefined) {
+          service.init(gb2.board);
+          const R = service.play('RED', 0);
+          expect(R.error).toEqual('column is full');
+        }
+      });
+    });
 
+    describe("should throw `not your turn` errors", () => {
+      it("should not be possible to start with YELLOW", () => {
+        service.init(empty7x5);
+        const res = service.play('YELLOW', 1);
+        expect(res.error).toEqual("not your turn");
+      });
 
-  // Turn errors
-  it("should not be possible to start with YELLOW", () => {
-    service.init(empty7x5);
-    const res = service.play('YELLOW', 1);
-    expect(res.error).toEqual("not your turn");
-  });
-
-  it("should not be possible to play with red if number of yellow is less than yellow", () => {
-    const gb2 = genBoard(` |
+      it("should not be possible to play with red if number of yellow is less than yellow", () => {
+        const gb2 = genBoard(` |
                            |
                            |
                            |R
@@ -423,15 +502,15 @@ describe('Puissance4Service test play', () => {
                            |YY
                            |RR
                            |-------`);
-    if (gb2.error === undefined) {
-      service.init(gb2.board);
-      const R = service.play('RED', 2);
-      expect(R.error).toEqual("not your turn");
-    }
-  });
+        if (gb2.error === undefined) {
+          service.init(gb2.board);
+          const R = service.play('RED', 2);
+          expect(R.error).toEqual("not your turn");
+        }
+      });
 
-  it("should not be possible to play with yellow if number of red is less than red", () => {
-    const gb2 = genBoard(` |
+      it("should not be possible to play with yellow if number of red is less than red", () => {
+        const gb2 = genBoard(` |
                            |
                            |
                            |
@@ -439,31 +518,15 @@ describe('Puissance4Service test play', () => {
                            |RY
                            |YR
                            |-------`);
-    if (gb2.error === undefined) {
-      service.init(gb2.board);
-      const R = service.play('YELLOW', 2);
-      expect(R.error).toEqual("not your turn");
-    }
-  });
+        if (gb2.error === undefined) {
+          service.init(gb2.board);
+          const R = service.play('YELLOW', 2);
+          expect(R.error).toEqual("not your turn");
+        }
+      });
 
-  it("should not be possible to play if yellow and red are'nt equal", () => {
-    const gb2 = genBoard(` |
-                           |
-                           |
-                           |
-                           |YR
-                           |RY
-                           |RR
-                           |-------`);
-    if (gb2.error === undefined) {
-      service.init(gb2.board);
-      const R = service.play('YELLOW', 2);
-      expect(R.error).toEqual("not your turn");
-    }
-  });
-
-  it("should not be possible to play if yellow and red aren't equal", () => {
-    const gb2 = genBoard(` |
+      it("should not be possible to play if yellow and red are'nt equal", () => {
+        const gb2 = genBoard(` |
                            |
                            |
                            |
@@ -471,13 +534,30 @@ describe('Puissance4Service test play', () => {
                            |RY
                            |RR
                            |-------`);
-    if (gb2.error === undefined) {
-      service.init(gb2.board);
-      const R = service.play('RED', 2);
-      expect(R.error).toEqual("not your turn");
-    }
-  });
+        if (gb2.error === undefined) {
+          service.init(gb2.board);
+          const R = service.play('YELLOW', 2);
+          expect(R.error).toEqual("not your turn");
+        }
+      });
 
+      it("should not be possible to play if yellow and red aren't equal", () => {
+        const gb2 = genBoard(` |
+                           |
+                           |
+                           |
+                           |YR
+                           |RY
+                           |RR
+                           |-------`);
+        if (gb2.error === undefined) {
+          service.init(gb2.board);
+          const R = service.play('RED', 2);
+          expect(R.error).toEqual("not your turn");
+        }
+      });
+    });
+  });
 });
 
 describe('Puissance4Service test winner', () => {
@@ -499,6 +579,372 @@ describe('Puissance4Service test winner', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({});
     service = TestBed.inject(Puissance4Service);
+  });
+
+  // Horizontal Tests
+  describe('should winn horizontally', () => {
+    it("should return winner for red", () => {
+      const gb2 = genBoard(` |
+                           |
+                           |
+                           |
+                           |
+                           |R
+                           |-------`);
+      if (gb2.error === undefined) {
+        service.init(gb2.board);
+        expect(service.winner(1)).toEqual('RED');
+        expect(service.winner(2)).toEqual('NONE');
+      }
+    });
+
+    it("should return winner for yellow", () => {
+      const gb2 = genBoard(` |
+                           |
+                           |
+                           |
+                           |
+                           |Y
+                           |-------`);
+      if (gb2.error === undefined) {
+        service.init(gb2.board);
+        expect(service.winner(1)).toEqual('YELLOW');
+        expect(service.winner(2)).toEqual('NONE');
+      }
+    });
+
+    // horizontal bottom
+    it("should return winner for red with 5 horizontal tokens", () => {
+      const gb2 = genBoard(` |
+                           |
+                           |
+                           |
+                           |
+                           |RRRRR
+                           |-------`);
+      if (gb2.error === undefined) {
+        service.init(gb2.board);
+        expect(service.winner(1)).toEqual('RED');
+        expect(service.winner(2)).toEqual('RED');
+        expect(service.winner(3)).toEqual('RED');
+        expect(service.winner(4)).toEqual('RED');
+        expect(service.winner(5)).toEqual('RED');
+        expect(service.winner(6)).toEqual('NONE');
+      }
+    });
+
+    it("should return winner for yellow with 5 horizontal tokens", () => {
+      const gb2 = genBoard(` |
+                           |
+                           |
+                           |
+                           |
+                           |YYYYY
+                           |-------`);
+      if (gb2.error === undefined) {
+        service.init(gb2.board);
+        expect(service.winner(1)).toEqual('YELLOW');
+        expect(service.winner(2)).toEqual('YELLOW');
+        expect(service.winner(3)).toEqual('YELLOW');
+        expect(service.winner(4)).toEqual('YELLOW');
+        expect(service.winner(5)).toEqual('YELLOW');
+        expect(service.winner(6)).toEqual('NONE');
+      }
+    });
+
+    // Hortizontal at diffrent height
+    it("should return winner for red with 5 horizontal tokens at different height of 2", () => {
+      const gb2 = genBoard(` |
+                           |
+                           |
+                           |
+                           |RRRRR
+                           |RYRYR
+                           |-------`);
+      if (gb2.error === undefined) {
+        service.init(gb2.board);
+        expect(service.winner(1)).toEqual('RED');
+        expect(service.winner(2)).toEqual('RED');
+        expect(service.winner(3)).toEqual('RED');
+        expect(service.winner(4)).toEqual('RED');
+        expect(service.winner(5)).toEqual('RED');
+        expect(service.winner(6)).toEqual('NONE');
+      }
+    });
+
+    it("should return winner for yellow with 5 horizontal tokens at different height of 2", () => {
+      const gb2 = genBoard(` |
+                           |
+                           |
+                           |
+                           |YYYYY
+                           |YRYYR
+                           |-------`);
+      if (gb2.error === undefined) {
+        service.init(gb2.board);
+        expect(service.winner(1)).toEqual('YELLOW');
+        expect(service.winner(2)).toEqual('YELLOW');
+        expect(service.winner(3)).toEqual('YELLOW');
+        expect(service.winner(4)).toEqual('YELLOW');
+        expect(service.winner(5)).toEqual('YELLOW');
+        expect(service.winner(6)).toEqual('NONE');
+      }
+    });
+
+    it("should return winner for red with 5 horizontal tokens at max height", () => {
+      const gb2 = genBoard(` |RRRRR
+                           |RYRYR
+                           |-------`);
+      if (gb2.error === undefined) {
+        service.init(gb2.board);
+        expect(service.winner(1)).toEqual('RED');
+        expect(service.winner(2)).toEqual('RED');
+        expect(service.winner(3)).toEqual('RED');
+        expect(service.winner(4)).toEqual('RED');
+        expect(service.winner(5)).toEqual('RED');
+        expect(service.winner(6)).toEqual('NONE');
+      }
+    });
+
+    it("should return winner for yellow with 5 horizontal tokens at max height", () => {
+      const gb2 = genBoard(` |YYYYY
+                           |YRYRY
+                           |-------`);
+      if (gb2.error === undefined) {
+        service.init(gb2.board);
+        expect(service.winner(1)).toEqual('YELLOW');
+        expect(service.winner(2)).toEqual('YELLOW');
+        expect(service.winner(3)).toEqual('YELLOW');
+        expect(service.winner(4)).toEqual('YELLOW');
+        expect(service.winner(5)).toEqual('YELLOW');
+        expect(service.winner(6)).toEqual('NONE');
+      }
+    });
+  });
+  // Vertical Tests
+  describe('should winn vertically', () => {
+    it("should return winner for red with 5 vertical tokens", () => {
+      const gb2 = genBoard(` |
+                           |R
+                           |R
+                           |R
+                           |R
+                           |R
+                           |-------`);
+      if (gb2.error === undefined) {
+        service.init(gb2.board);
+        expect(service.winner(1)).toEqual('RED');
+        expect(service.winner(2)).toEqual('RED');
+        expect(service.winner(3)).toEqual('RED');
+        expect(service.winner(4)).toEqual('RED');
+        expect(service.winner(5)).toEqual('RED');
+        expect(service.winner(6)).toEqual('NONE');
+      }
+    });
+
+    it("should return winner for yellow with 5 vertical tokens", () => {
+      const gb2 = genBoard(` |
+                           |Y
+                           |Y
+                           |Y
+                           |Y
+                           |Y
+                           |-------`);
+      if (gb2.error === undefined) {
+        service.init(gb2.board);
+        expect(service.winner(1)).toEqual('YELLOW');
+        expect(service.winner(2)).toEqual('YELLOW');
+        expect(service.winner(3)).toEqual('YELLOW');
+        expect(service.winner(4)).toEqual('YELLOW');
+        expect(service.winner(5)).toEqual('YELLOW');
+        expect(service.winner(6)).toEqual('NONE');
+      }
+    });
+
+    it("should return winner for red with 5 vertical tokens place in center", () => {
+      const gb2 = genBoard(` |
+                           |   R
+                           |   R
+                           |   R
+                           |   R
+                           |   R
+                           |-------`);
+      if (gb2.error === undefined) {
+        service.init(gb2.board);
+        expect(service.winner(1)).toEqual('RED');
+        expect(service.winner(2)).toEqual('RED');
+        expect(service.winner(3)).toEqual('RED');
+        expect(service.winner(4)).toEqual('RED');
+        expect(service.winner(5)).toEqual('RED');
+        expect(service.winner(6)).toEqual('NONE');
+      }
+    });
+
+    it("should return winner for yellow with 5 vertical tokens place in center", () => {
+      const gb2 = genBoard(` |
+                           |   Y
+                           |   Y
+                           |   Y
+                           |   Y
+                           |   Y
+                           |-------`);
+      if (gb2.error === undefined) {
+        service.init(gb2.board);
+        expect(service.winner(1)).toEqual('YELLOW');
+        expect(service.winner(2)).toEqual('YELLOW');
+        expect(service.winner(3)).toEqual('YELLOW');
+        expect(service.winner(4)).toEqual('YELLOW');
+        expect(service.winner(5)).toEqual('YELLOW');
+        expect(service.winner(6)).toEqual('NONE');
+      }
+    });
+
+    it("should return winner for red with 5 vertical token place at the edge", () => {
+      const gb2 = genBoard(` |
+                           |      R
+                           |      R
+                           |      R
+                           |      R
+                           |      R
+                           |-------`);
+      if (gb2.error === undefined) {
+        service.init(gb2.board);
+        expect(service.winner(1)).toEqual('RED');
+        expect(service.winner(2)).toEqual('RED');
+        expect(service.winner(3)).toEqual('RED');
+        expect(service.winner(4)).toEqual('RED');
+        expect(service.winner(5)).toEqual('RED');
+        expect(service.winner(6)).toEqual('NONE');
+      }
+    });
+
+    it("should return winner for yellow with 5 vertical token place at the edge", () => {
+      const gb2 = genBoard(` |
+                           |      Y
+                           |      Y
+                           |      Y
+                           |      Y
+                           |      Y
+                           |-------`);
+      if (gb2.error === undefined) {
+        service.init(gb2.board);
+        expect(service.winner(1)).toEqual('YELLOW');
+        expect(service.winner(2)).toEqual('YELLOW');
+        expect(service.winner(3)).toEqual('YELLOW');
+        expect(service.winner(4)).toEqual('YELLOW');
+        expect(service.winner(5)).toEqual('YELLOW');
+        expect(service.winner(6)).toEqual('NONE');
+      }
+    });
+  });
+  // Diagonal Tests
+  describe('should winn diagonally', () => {
+    it("should return winner for red with 5 tokens place in right diagonal", () => {
+      const gb2 = genBoard(` |
+                           |R
+                           | R
+                           |  R
+                           |   R
+                           |    R
+                           |-------`);
+      if (gb2.error === undefined) {
+        service.init(gb2.board);
+        expect(service.winner(1)).toEqual('RED');
+        expect(service.winner(2)).toEqual('RED');
+        expect(service.winner(3)).toEqual('RED');
+        expect(service.winner(4)).toEqual('RED');
+        expect(service.winner(5)).toEqual('RED');
+        expect(service.winner(6)).toEqual('NONE');
+      }
+    });
+
+    it("should return winner for yellow with 5 tokens place in right diagonal", () => {
+      const gb2 = genBoard(` |
+                           |Y
+                           | Y
+                           |  Y
+                           |   Y
+                           |    Y
+                           |-------`);
+      if (gb2.error === undefined) {
+        service.init(gb2.board);
+        expect(service.winner(1)).toEqual('YELLOW');
+        expect(service.winner(2)).toEqual('YELLOW');
+        expect(service.winner(3)).toEqual('YELLOW');
+        expect(service.winner(4)).toEqual('YELLOW');
+        expect(service.winner(5)).toEqual('YELLOW');
+        expect(service.winner(6)).toEqual('NONE');
+      }
+    });
+
+    it("should return winner for red with 5 tokens place in left diagonal", () => {
+      const gb2 = genBoard(` |
+                           |    R
+                           |   R
+                           |  R
+                           | R
+                           |R
+                           |-------`);
+      if (gb2.error === undefined) {
+        service.init(gb2.board);
+        expect(service.winner(1)).toEqual('RED');
+        expect(service.winner(2)).toEqual('RED');
+        expect(service.winner(3)).toEqual('RED');
+        expect(service.winner(4)).toEqual('RED');
+        expect(service.winner(5)).toEqual('RED');
+        expect(service.winner(6)).toEqual('NONE');
+      }
+    });
+
+    it("should return winner for yellow with 5 tokens place in left diagonal", () => {
+      const gb2 = genBoard(` |
+                           |    Y
+                           |   Y
+                           |  Y
+                           | Y
+                           |Y
+                           |-------`);
+      if (gb2.error === undefined) {
+        service.init(gb2.board);
+        expect(service.winner(1)).toEqual('YELLOW');
+        expect(service.winner(2)).toEqual('YELLOW');
+        expect(service.winner(3)).toEqual('YELLOW');
+        expect(service.winner(4)).toEqual('YELLOW');
+        expect(service.winner(5)).toEqual('YELLOW');
+        expect(service.winner(6)).toEqual('NONE');
+      }
+    });
+  });
+  //@TODO: make test with multpiples wins
+  // Two Winner
+  it("should return winner for red", () => {
+    const gb2 = genBoard(` |
+                           |
+                           |
+                           |
+                           |
+                           |RY
+                           |-------`);
+    if (gb2.error === undefined) {
+      service.init(gb2.board);
+      expect(service.winner(1)).toEqual('RED');
+      expect(service.winner(2)).toEqual('NONE');
+    }
+  });
+
+  it("should return winner for yellow", () => {
+    const gb2 = genBoard(` |
+                           |
+                           |
+                           |
+                           |
+                           |YR
+                           |-------`);
+    if (gb2.error === undefined) {
+      service.init(gb2.board);
+      expect(service.winner(1)).toEqual('YELLOW');
+      expect(service.winner(2)).toEqual('NONE');
+    }
   });
 
   it("no winner when starting", () => {
