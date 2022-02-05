@@ -332,6 +332,7 @@ describe('Puissance4Service test play', () => {
         expect(R.error).toBeUndefined();
         expect(service.board.data[0][1]).toEqual('YELLOW');
       }
+      expect(gb2.error).toBeUndefined();
     });
 
     it("should play yellow on same column as red", () => {
@@ -348,6 +349,7 @@ describe('Puissance4Service test play', () => {
         expect(R.error).toBeUndefined();
         expect(service.board.data[0][1]).toEqual('YELLOW');
       }
+      expect(gb2.error).toBeUndefined();
     });
 
     it('should be possible to play yellow if multiple red are on the board', () => {
@@ -364,6 +366,7 @@ describe('Puissance4Service test play', () => {
         expect(R.error).toBeUndefined();
         expect(service.board.data[0][1]).toEqual('YELLOW');
       }
+      expect(gb2.error).toBeUndefined();
     });
 
     it("should be possible to play red if there are same number of yellow than red", () => {
@@ -380,6 +383,7 @@ describe('Puissance4Service test play', () => {
         expect(R.error).toBeUndefined();
         expect(service.board.data[0][1]).toEqual('RED');
       }
+      expect(gb2.error).toBeUndefined();
     });
 
     it("should be possible to play red if a column is almost full", () => {
@@ -397,6 +401,7 @@ describe('Puissance4Service test play', () => {
         expect(R.error).toBeUndefined();
         expect(service.board.data[0][1]).toEqual('RED');
       }
+      expect(gb2.error).toBeUndefined();
     });
 
     it("should be possible to play yellow if a column is almost full", () => {
@@ -414,6 +419,7 @@ describe('Puissance4Service test play', () => {
         expect(R.error).toBeUndefined();
         expect(service.board.data[0][1]).toEqual('RED');
       }
+      expect(gb2.error).toBeUndefined();
     });
 
     it('should be possible to play at the last column', () => {
@@ -467,6 +473,7 @@ describe('Puissance4Service test play', () => {
           const R = service.play('YELLOW', 0);
           expect(R.error).toEqual('column is full');
         }
+        expect(gb2.error).toBeUndefined();
       });
 
       it("should not be possible to play in column that's already full for red", () => {
@@ -483,6 +490,7 @@ describe('Puissance4Service test play', () => {
           const R = service.play('RED', 0);
           expect(R.error).toEqual('column is full');
         }
+        expect(gb2.error).toBeUndefined();
       });
     });
 
@@ -507,6 +515,7 @@ describe('Puissance4Service test play', () => {
           const R = service.play('RED', 2);
           expect(R.error).toEqual("not your turn");
         }
+        expect(gb2.error).toBeUndefined();
       });
 
       it("should not be possible to play with yellow if number of red is less than red", () => {
@@ -523,6 +532,7 @@ describe('Puissance4Service test play', () => {
           const R = service.play('YELLOW', 2);
           expect(R.error).toEqual("not your turn");
         }
+        expect(gb2.error).toBeUndefined();
       });
 
       it("should not be possible to play if yellow and red are'nt equal", () => {
@@ -539,6 +549,7 @@ describe('Puissance4Service test play', () => {
           const R = service.play('YELLOW', 2);
           expect(R.error).toEqual("not your turn");
         }
+        expect(gb2.error).toBeUndefined();
       });
 
       it("should not be possible to play if yellow and red aren't equal", () => {
@@ -555,6 +566,7 @@ describe('Puissance4Service test play', () => {
           const R = service.play('RED', 2);
           expect(R.error).toEqual("not your turn");
         }
+        expect(gb2.error).toBeUndefined();
       });
     });
   });
@@ -596,6 +608,7 @@ describe('Puissance4Service test winner', () => {
         expect(service.winner(1)).toEqual('RED');
         expect(service.winner(2)).toEqual('NONE');
       }
+      expect(gb2.error).toBeUndefined();
     });
 
     it("should return winner for yellow", () => {
@@ -611,6 +624,7 @@ describe('Puissance4Service test winner', () => {
         expect(service.winner(1)).toEqual('YELLOW');
         expect(service.winner(2)).toEqual('NONE');
       }
+      expect(gb2.error).toBeUndefined();
     });
 
     // horizontal bottom
@@ -619,8 +633,8 @@ describe('Puissance4Service test winner', () => {
                            |
                            |
                            |
-                           |
-                           |RRRRR
+                           |Y Y Y
+                           |RRRRR Y
                            |-------`);
       if (gb2.error === undefined) {
         service.init(gb2.board);
@@ -631,6 +645,7 @@ describe('Puissance4Service test winner', () => {
         expect(service.winner(5)).toEqual('RED');
         expect(service.winner(6)).toEqual('NONE');
       }
+      expect(gb2.error).toBeUndefined();
     });
 
     it("should return winner for yellow with 5 horizontal tokens", () => {
@@ -638,8 +653,8 @@ describe('Puissance4Service test winner', () => {
                            |
                            |
                            |
-                           |
-                           |YYYYY
+                           |R R R
+                           |YYYYY R
                            |-------`);
       if (gb2.error === undefined) {
         service.init(gb2.board);
@@ -650,6 +665,7 @@ describe('Puissance4Service test winner', () => {
         expect(service.winner(5)).toEqual('YELLOW');
         expect(service.winner(6)).toEqual('NONE');
       }
+      expect(gb2.error).toBeUndefined();
     });
 
     // Hortizontal at diffrent height
@@ -670,6 +686,7 @@ describe('Puissance4Service test winner', () => {
         expect(service.winner(5)).toEqual('RED');
         expect(service.winner(6)).toEqual('NONE');
       }
+      expect(gb2.error).toBeUndefined();
     });
 
     it("should return winner for yellow with 5 horizontal tokens at different height of 2", () => {
@@ -689,6 +706,7 @@ describe('Puissance4Service test winner', () => {
         expect(service.winner(5)).toEqual('YELLOW');
         expect(service.winner(6)).toEqual('NONE');
       }
+      expect(gb2.error).toBeUndefined();
     });
 
     it("should return winner for red with 5 horizontal tokens at max height", () => {
@@ -704,6 +722,7 @@ describe('Puissance4Service test winner', () => {
         expect(service.winner(5)).toEqual('RED');
         expect(service.winner(6)).toEqual('NONE');
       }
+      expect(gb2.error).toBeUndefined();
     });
 
     it("should return winner for yellow with 5 horizontal tokens at max height", () => {
@@ -719,6 +738,7 @@ describe('Puissance4Service test winner', () => {
         expect(service.winner(5)).toEqual('YELLOW');
         expect(service.winner(6)).toEqual('NONE');
       }
+      expect(gb2.error).toBeUndefined();
     });
   });
   // Vertical Tests
@@ -839,80 +859,72 @@ describe('Puissance4Service test winner', () => {
   });
   // Diagonal Tests
   describe('should winn diagonally', () => {
-    it("should return winner for red with 5 tokens place in right diagonal", () => {
+    it("should return winner for red with 2 tokens place in right diagonal", () => {
       const gb2 = genBoard(` |
-                           |R
+                           |
+                           |
+                           |
                            | R
-                           |  R
-                           |   R
-                           |    R
+                           | YR
                            |-------`);
       if (gb2.error === undefined) {
         service.init(gb2.board);
         expect(service.winner(1)).toEqual('RED');
         expect(service.winner(2)).toEqual('RED');
-        expect(service.winner(3)).toEqual('RED');
-        expect(service.winner(4)).toEqual('RED');
-        expect(service.winner(5)).toEqual('RED');
-        expect(service.winner(6)).toEqual('NONE');
+        expect(service.winner(3)).toEqual('NONE');
       }
+      expect(gb2.error).toBeUndefined();
     });
 
     it("should return winner for yellow with 5 tokens place in right diagonal", () => {
       const gb2 = genBoard(` |
-                           |Y
+                           |
+                           |
+                           |
                            | Y
-                           |  Y
-                           |   Y
-                           |    Y
+                           | RY
                            |-------`);
       if (gb2.error === undefined) {
         service.init(gb2.board);
         expect(service.winner(1)).toEqual('YELLOW');
         expect(service.winner(2)).toEqual('YELLOW');
-        expect(service.winner(3)).toEqual('YELLOW');
-        expect(service.winner(4)).toEqual('YELLOW');
-        expect(service.winner(5)).toEqual('YELLOW');
-        expect(service.winner(6)).toEqual('NONE');
+        expect(service.winner(3)).toEqual('NONE');
       }
+      expect(gb2.error).toBeUndefined();
     });
 
     it("should return winner for red with 5 tokens place in left diagonal", () => {
       const gb2 = genBoard(` |
-                           |    R
-                           |   R
-                           |  R
+                           |
+                           |
+                           |
                            | R
-                           |R
+                           |RY
                            |-------`);
       if (gb2.error === undefined) {
         service.init(gb2.board);
         expect(service.winner(1)).toEqual('RED');
         expect(service.winner(2)).toEqual('RED');
-        expect(service.winner(3)).toEqual('RED');
-        expect(service.winner(4)).toEqual('RED');
-        expect(service.winner(5)).toEqual('RED');
-        expect(service.winner(6)).toEqual('NONE');
+        expect(service.winner(3)).toEqual('NONE');
       }
+      expect(gb2.error).toBeUndefined();
     });
 
     it("should return winner for yellow with 5 tokens place in left diagonal", () => {
       const gb2 = genBoard(` |
-                           |    Y
-                           |   Y
-                           |  Y
+                           |
+                           |
+                           |
                            | Y
-                           |Y
+                           |YR
                            |-------`);
       if (gb2.error === undefined) {
         service.init(gb2.board);
         expect(service.winner(1)).toEqual('YELLOW');
         expect(service.winner(2)).toEqual('YELLOW');
-        expect(service.winner(3)).toEqual('YELLOW');
-        expect(service.winner(4)).toEqual('YELLOW');
-        expect(service.winner(5)).toEqual('YELLOW');
-        expect(service.winner(6)).toEqual('NONE');
+        expect(service.winner(3)).toEqual('NONE');
       }
+      expect(gb2.error).toBeUndefined();
     });
   });
   //@TODO: make test with multpiples wins
@@ -930,6 +942,7 @@ describe('Puissance4Service test winner', () => {
       expect(service.winner(1)).toEqual('RED');
       expect(service.winner(2)).toEqual('NONE');
     }
+    expect(gb2.error).toBeUndefined();
   });
 
   it("should return winner for yellow", () => {
@@ -945,6 +958,7 @@ describe('Puissance4Service test winner', () => {
       expect(service.winner(1)).toEqual('YELLOW');
       expect(service.winner(2)).toEqual('NONE');
     }
+    expect(gb2.error).toBeUndefined();
   });
 
   it("no winner when starting", () => {
