@@ -316,7 +316,7 @@ describe('Puissance4Service test play', () => {
       service.init(empty7x5);
       const R = service.play('RED', 1);
       expect(R.error).toBeUndefined();
-      expect(service.board.data[0][0]).toEqual('RED');
+      expect(service.board.data[1][0]).toEqual('RED');
     });
 
     it("should play yellow if bord contain one red token", () => {
@@ -331,7 +331,7 @@ describe('Puissance4Service test play', () => {
         service.init(gb2.board);
         const R = service.play('YELLOW', 2);
         expect(R.error).toBeUndefined();
-        expect(service.board.data[0][1]).toEqual('YELLOW');
+        expect(service.board.data[2][0]).toEqual('YELLOW');
       }
       expect(gb2.error).toBeUndefined();
     });
@@ -363,9 +363,9 @@ describe('Puissance4Service test play', () => {
                              |-------`);
       if (gb2.error === undefined) {
         service.init(gb2.board);
-        const R = service.play('YELLOW', 2);
+        const R = service.play('YELLOW', 1);
         expect(R.error).toBeUndefined();
-        expect(service.board.data[0][1]).toEqual('YELLOW');
+        expect(service.board.data[1][1]).toEqual('YELLOW');
       }
       expect(gb2.error).toBeUndefined();
     });
@@ -380,9 +380,9 @@ describe('Puissance4Service test play', () => {
                              |-------`);
       if (gb2.error === undefined) {
         service.init(gb2.board);
-        const R = service.play('RED', 2);
+        const R = service.play('RED', 1);
         expect(R.error).toBeUndefined();
-        expect(service.board.data[0][1]).toEqual('RED');
+        expect(service.board.data[1][2]).toEqual('RED');
       }
       expect(gb2.error).toBeUndefined();
     });
@@ -400,7 +400,7 @@ describe('Puissance4Service test play', () => {
         service.init(gb2.board);
         const R = service.play('RED', 0);
         expect(R.error).toBeUndefined();
-        expect(service.board.data[0][1]).toEqual('RED');
+        expect(service.board.data[0][6]).toEqual('RED');
       }
       expect(gb2.error).toBeUndefined();
     });
@@ -418,12 +418,12 @@ describe('Puissance4Service test play', () => {
         service.init(gb2.board);
         const R = service.play('YELLOW', 0);
         expect(R.error).toBeUndefined();
-        expect(service.board.data[0][1]).toEqual('RED');
+        expect(service.board.data[0][6]).toEqual('YELLOW');
       }
       expect(gb2.error).toBeUndefined();
     });
 
-    it('should be possible to play at the last column', () => {
+    it('should be possible to play at the last column as yellow', () => {
       const gb2 = genBoard(` |
                              |
                              |
@@ -436,7 +436,7 @@ describe('Puissance4Service test play', () => {
         service.init(gb2.board);
         const R = service.play('YELLOW', 6);
         expect(R.error).toBeUndefined();
-        expect(service.board.data[0][5]).toEqual('YELLOW');
+        expect(service.board.data[6][0]).toEqual('YELLOW');
       }
     });
   });
@@ -502,7 +502,7 @@ describe('Puissance4Service test play', () => {
         expect(res.error).toEqual("not your turn");
       });
 
-      it("should not be possible to play with red if number of yellow is less than yellow", () => {
+      it("should not be possible to play with red if number of red is 1 more than yellow", () => {
         const gb2 = genBoard(` |
                            |
                            |
@@ -519,7 +519,7 @@ describe('Puissance4Service test play', () => {
         expect(gb2.error).toBeUndefined();
       });
 
-      it("should not be possible to play with yellow if number of red is less than red", () => {
+      it("should not be possible to play with yellow if number of yellow is equal to red", () => {
         const gb2 = genBoard(` |
                            |
                            |
@@ -531,40 +531,6 @@ describe('Puissance4Service test play', () => {
         if (gb2.error === undefined) {
           service.init(gb2.board);
           const R = service.play('YELLOW', 2);
-          expect(R.error).toEqual("not your turn");
-        }
-        expect(gb2.error).toBeUndefined();
-      });
-
-      it("should not be possible to play if yellow and red are'nt equal", () => {
-        const gb2 = genBoard(` |
-                           |
-                           |
-                           |
-                           |YR
-                           |RY
-                           |RR
-                           |-------`);
-        if (gb2.error === undefined) {
-          service.init(gb2.board);
-          const R = service.play('YELLOW', 2);
-          expect(R.error).toEqual("not your turn");
-        }
-        expect(gb2.error).toBeUndefined();
-      });
-
-      it("should not be possible to play if yellow and red aren't equal", () => {
-        const gb2 = genBoard(` |
-                           |
-                           |
-                           |
-                           |YR
-                           |RY
-                           |RR
-                           |-------`);
-        if (gb2.error === undefined) {
-          service.init(gb2.board);
-          const R = service.play('RED', 2);
           expect(R.error).toEqual("not your turn");
         }
         expect(gb2.error).toBeUndefined();
