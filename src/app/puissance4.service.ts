@@ -48,14 +48,14 @@ export class Puissance4Service implements Puissance4Interface {
   }
 
   /**
-   * Play token at columnIndex \
+   * Play token at columnIndex.
    * PRECONDITION : the board is correct.
    * Errors should be considered in order (if several errors are possible, returns the first one in the following list)
    * @param token The token to play
    * @param columnIndex The columnIndex where to play, must be an integer
    * @returns \{error: undefined, board: the new board} with token t at columnIndex in case of success. The new board is then set to the board attribute
-   * @returns \{error: 'out of range'} in case columnIndex is not a valid columnIndex index :
-   * @returns \{error: 'columnIndex is full'} in case columnIndex is ALREADY full.
+   * @returns \{error: 'out of range'} in case columnIndex is not a valid column index
+   * @returns \{error: 'column is full'} in case column is ALREADY full.
    * @returns \{error: 'not your turn'} As RED begins, then #RED should be equals to #YELLOW or #YELLOW + 1.
    */
   play(token: Token, columnIndex: number): playReturns {
