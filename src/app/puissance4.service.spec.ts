@@ -443,7 +443,7 @@ describe('Puissance4Service test play', () => {
    * Should return an error
    */
   //out of range errors
-  describe("should throw errors",()=> {
+  describe("should throw errors", () => {
     describe("should throw `out of range` errors", () => {
       it("sould not be possible to play in negative column", () => {
         service.init(empty7x5);
@@ -760,6 +760,7 @@ describe('Puissance4Service test winner', () => {
         expect(service.winner(5)).toEqual('RED');
         expect(service.winner(6)).toEqual('NONE');
       }
+      expect(gb2.error).toBeUndefined();
     });
 
     it("should return winner for yellow with 5 vertical tokens", () => {
@@ -779,6 +780,7 @@ describe('Puissance4Service test winner', () => {
         expect(service.winner(5)).toEqual('YELLOW');
         expect(service.winner(6)).toEqual('NONE');
       }
+      expect(gb2.error).toBeUndefined();
     });
 
     it("should return winner for red with 5 vertical tokens place in center", () => {
@@ -798,6 +800,7 @@ describe('Puissance4Service test winner', () => {
         expect(service.winner(5)).toEqual('RED');
         expect(service.winner(6)).toEqual('NONE');
       }
+      expect(gb2.error).toBeUndefined();
     });
 
     it("should return winner for yellow with 5 vertical tokens place in center", () => {
@@ -817,6 +820,7 @@ describe('Puissance4Service test winner', () => {
         expect(service.winner(5)).toEqual('YELLOW');
         expect(service.winner(6)).toEqual('NONE');
       }
+      expect(gb2.error).toBeUndefined();
     });
 
     it("should return winner for red with 5 vertical token place at the edge", () => {
@@ -836,6 +840,7 @@ describe('Puissance4Service test winner', () => {
         expect(service.winner(5)).toEqual('RED');
         expect(service.winner(6)).toEqual('NONE');
       }
+      expect(gb2.error).toBeUndefined();
     });
 
     it("should return winner for yellow with 5 vertical token place at the edge", () => {
@@ -855,6 +860,7 @@ describe('Puissance4Service test winner', () => {
         expect(service.winner(5)).toEqual('YELLOW');
         expect(service.winner(6)).toEqual('NONE');
       }
+      expect(gb2.error).toBeUndefined();
     });
   });
   // Diagonal Tests
@@ -927,38 +933,161 @@ describe('Puissance4Service test winner', () => {
       expect(gb2.error).toBeUndefined();
     });
   });
-  //@TODO: make test with multpiples wins
-  // Two Winner
-  it("should return winner for red", () => {
-    const gb2 = genBoard(` |
+
+  describe('win priority', () => {
+
+    describe("check win priority horizontally", () => {
+      it('red should win in priority with 3 horizontal tokens in a row', () => {
+        const gb2 = genBoard(` |
                            |
+                           |
+                           | Y
+                           | Y
+                           | Y
+                           |RRR
+                           |-------`);
+        if (gb2.error === undefined) {
+          service.init(gb2.board);
+          expect(service.winner(1)).toEqual('RED');
+          expect(service.winner(2)).toEqual('RED');
+          expect(service.winner(3)).toEqual('RED');
+          expect(service.winner(4)).toEqual('NONE');
+        }
+        expect(gb2.error).toBeUndefined();
+      });
+
+      it('yellow should win in priority with 3 horizontal tokens in a row', () => {
+        const gb2 = genBoard(` |
+                           |
+                           |
+                           |  R
+                           |  R
+                           |  R
+                           | YYY
+                           |-------`);
+        if (gb2.error === undefined) {
+          service.init(gb2.board);
+          expect(service.winner(1)).toEqual('YELLOW');
+          expect(service.winner(2)).toEqual('YELLOW');
+          expect(service.winner(3)).toEqual('YELLOW');
+          expect(service.winner(4)).toEqual('NONE');
+        }
+        expect(gb2.error).toBeUndefined();
+      });
+    });
+    describe("check win priority vertically", () => {
+      it('red should win in priority with 3 vertical tokens in a row', () => {
+        const gb2 = genBoard(` |
                            |
                            |
                            |
                            |RY
+                           |RY
+                           |RY
                            |-------`);
-    if (gb2.error === undefined) {
-      service.init(gb2.board);
-      expect(service.winner(1)).toEqual('RED');
-      expect(service.winner(2)).toEqual('NONE');
-    }
-    expect(gb2.error).toBeUndefined();
-  });
+        if (gb2.error === undefined) {
+          service.init(gb2.board);
+          expect(service.winner(1)).toEqual('RED');
+          expect(service.winner(2)).toEqual('RED');
+          expect(service.winner(3)).toEqual('RED');
+          expect(service.winner(4)).toEqual('NONE');
+        }
+        expect(gb2.error).toBeUndefined();
+      });
 
-  it("should return winner for yellow", () => {
-    const gb2 = genBoard(` |
-                           |
+      it('yellow should win in priority with 3 vertical tokens in row', () => {
+        const gb2 = genBoard(` |
                            |
                            |
                            |
                            |YR
+                           |YR
+                           |YR
                            |-------`);
-    if (gb2.error === undefined) {
-      service.init(gb2.board);
-      expect(service.winner(1)).toEqual('YELLOW');
-      expect(service.winner(2)).toEqual('NONE');
-    }
-    expect(gb2.error).toBeUndefined();
+        if (gb2.error === undefined) {
+          service.init(gb2.board);
+          expect(service.winner(1)).toEqual('YELLOW');
+          expect(service.winner(2)).toEqual('YELLOW');
+          expect(service.winner(3)).toEqual('YELLOW');
+          expect(service.winner(4)).toEqual('NONE');
+        }
+        expect(gb2.error).toBeUndefined();
+      });
+    });
+    describe("check win priority diagonally", () => {
+      it('red should win in priority with 3 tokens in left diagonal', () => {
+        const gb2 = genBoard(` |
+                           |
+                           |
+                           |
+                           |  R
+                           | RY
+                           |RYYY
+                           |-------`);
+        if (gb2.error === undefined) {
+          service.init(gb2.board);
+          expect(service.winner(1)).toEqual('RED');
+          expect(service.winner(2)).toEqual('RED');
+          expect(service.winner(3)).toEqual('RED');
+          expect(service.winner(4)).toEqual('NONE');
+        }
+        expect(gb2.error).toBeUndefined();
+      });
+      it("yellow should win in priority with 3 tokens in left diagonal", () => {
+        const gb2 = genBoard(` |
+                           |
+                           |
+                           |
+                           |  Y
+                           | YR
+                           |YRRR
+                           |-------`);
+        if (gb2.error === undefined) {
+          service.init(gb2.board);
+          expect(service.winner(1)).toEqual('YELLOW');
+          expect(service.winner(2)).toEqual('YELLOW');
+          expect(service.winner(3)).toEqual('YELLOW');
+          expect(service.winner(4)).toEqual('NONE');
+        }
+        expect(gb2.error).toBeUndefined();
+      });
+      it('red should win in priority with 3 tokens in right diagonal', () => {
+        const gb2 = genBoard(` |
+                           |
+                           |
+                           |
+                           |R
+                           |YR
+                           |RYRYYY
+                           |-------`);
+        if (gb2.error === undefined) {
+          service.init(gb2.board);
+          expect(service.winner(1)).toEqual('RED');
+          expect(service.winner(2)).toEqual('RED');
+          expect(service.winner(3)).toEqual('RED');
+          expect(service.winner(4)).toEqual('NONE');
+        }
+        expect(gb2.error).toBeUndefined();
+      });
+      it("yellow should win in priority with 3 tokens in right diagonal", () => {
+        const gb2 = genBoard(` |
+                           |
+                           |
+                           |
+                           |Y
+                           |RY
+                           |YRYRRR
+                           |-------`);
+        if (gb2.error === undefined) {
+          service.init(gb2.board);
+          expect(service.winner(1)).toEqual('YELLOW');
+          expect(service.winner(2)).toEqual('YELLOW');
+          expect(service.winner(3)).toEqual('YELLOW');
+          expect(service.winner(4)).toEqual('NONE');
+        }
+        expect(gb2.error).toBeUndefined();
+      });
+    });
   });
 
   it("no winner when starting", () => {
@@ -970,4 +1099,5 @@ describe('Puissance4Service test winner', () => {
     expect(service.winner(5)).toEqual("NONE")
   });
 
-});
+})
+;
