@@ -29,6 +29,20 @@ export class Puissance4Service implements Puissance4Interface {
    *                                   or if data has different magnitudes than width and height (if they are valid ones).
    */
   init(board: Board): initReturns {
+    if (board.width != board.data.length || board.width<=0 || board.height<=0) return {error: 'invalid magnitudes'};
+    if (board.data.filter(line => line.length > board.height).length > 0) return {error: 'invalid magnitudes'};
+
+    // Map bord to first get the number of tokens in each column and then reduce it to get the number of tokens in bord
+    const mappedRedAndYellow = board.data.map((line,) =>{
+      const nbRed = line.filter(token => token == 'RED').length;
+      const nbYellow = line.filter(token => token == 'YELLOW').length;
+      return {nbRed, nbYellow};
+    }).reduce((acc,v) => {
+      return {nbRed: acc.nbRed + v.nbRed, nbYellow: acc.nbYellow + v.nbYellow};
+    }, {nbRed: 0, nbYellow: 0});
+    // If the number of tokens in bord is not equal to the number of tokens in each column, return an error
+    if (!(mappedRedAndYellow.nbRed == mappedRedAndYellow.nbYellow || mappedRedAndYellow.nbRed == mappedRedAndYellow.nbYellow + 1)) return {error: 'invalid data'};
+
     this.board = board;
     return {error: undefined, board};
   }
