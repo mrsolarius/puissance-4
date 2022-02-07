@@ -80,3 +80,16 @@ export function genBoard(str: string): genBoardResult {
   //  return {error: 'string non parsable to a Board'}
   //}
 }
+
+/**
+ * Get the number of tokens in the board
+ * @param board The board where to count the tokens
+ * @param token The token to count
+ * @returns The number of selected tokens in the board
+ */
+export function nbTokensInBoard(board:Board,token: Token): number {
+  return board.data.reduce((acc, column) => {
+    //Filter selected tokens to get number of selected tokens in column
+    return acc + column.filter(t => t == token).length;
+  }, 0);
+}
