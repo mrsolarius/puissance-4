@@ -59,7 +59,7 @@ export class Puissance4Service implements Puissance4Interface {
    * @returns \{error: 'not your turn'} As RED begins, then #RED should be equals to #YELLOW or #YELLOW + 1.
    */
   play(token: Token, columnIndex: number): playReturns {
-    if (columnIndex < 0 || columnIndex >= this.board.width) return {error: 'out of range'};
+    if (columnIndex < 0 || columnIndex >= this.board.width || Number.isInteger(columnIndex)) return {error: 'out of range'};
     if (this.board.data[columnIndex].length === this.board.height) return {error: 'column is full'};
     if(token === 'RED'){
       if (!(nbTokensInBoard(this.board,'RED') == nbTokensInBoard(this.board,'YELLOW') || nbTokensInBoard(this.board,'RED') == 0)) return {error: 'not your turn'};

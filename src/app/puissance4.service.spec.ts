@@ -422,6 +422,24 @@ describe('Puissance4Service test play', () => {
   //out of range errors
   describe("should throw errors", () => {
     describe("should throw `out of range` errors", () => {
+
+      it("should thorw an error if column is not integer", () => {
+        const gb2 = genBoard(` |
+                               |
+                               |
+                               |
+                               |
+                               |
+                               |R
+                               |-------`);
+        if (gb2.error === undefined) {
+          service.init(gb2.board);
+          const R = service.play('YELLOW', 2.5);
+          expect(R.error).toEqual('out of range');
+        }
+        expect(gb2.error).toBeUndefined();
+      });
+
       it("sould not be possible to play in negative column", () => {
         service.init(empty7x5);
         const R = service.play('RED', -1);
