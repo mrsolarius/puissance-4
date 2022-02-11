@@ -28,4 +28,4 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run test:prod
-    - run: npm run stryker --dashboard.project https://github.com/l3-miage-cl-ihm/va-tp-puissance-4-l3miage-volatlo/ --dashboard.version master
+    # - run: npm run stryker --dashboard.project https://github.com/l3-miage-cl-ihm/va-tp-puissance-4-l3miage-volatlo/ --dashboard.version master
