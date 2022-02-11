@@ -38,7 +38,7 @@ export class Puissance4Service implements Puissance4Interface {
    *                                   or if data has different magnitudes than width and height (if they are valid ones).
    */
   init(board: Board): initReturns {
-    if (board.width<=0 || board.height<=0 || !Number.isInteger(board.width) || !Number.isInteger(board.height)) return {error: 'invalid magnitudes'};
+    if (board.width<1 || board.height<1 || !Number.isInteger(board.width) || !Number.isInteger(board.height)) return {error: 'invalid magnitudes'};
     if (board.width != board.data.length || board.data.filter(line => line.length > board.height).length > 0) return {error: 'invalid data'};
     if (!(nbTokensInBoard(board,'RED') == nbTokensInBoard(board,'YELLOW') ||
           nbTokensInBoard(board,'RED') == nbTokensInBoard(board,'YELLOW')  + 1)) return {error: 'invalid data'};

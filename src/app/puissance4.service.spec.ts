@@ -19,6 +19,21 @@ describe('Puissance4Service test init', () => {
    * Should WORK !
    */
   describe("should work", () => {
+
+    it('should init a board with height of 1', () => {
+      const b: Board = {width: 5, height: 1, data: [[], [], [], [], []]};
+      const R = service.init(b);
+      expect(R.error).toBeUndefined();
+      expect(service.board).toBe(b);
+    });
+
+    it('should init a board with width of 1', () => {
+      const b: Board = {width: 1, height: 5, data: [[]]};
+      const R = service.init(b);
+      expect(R.error).toBeUndefined();
+      expect(service.board).toBe(b);
+    });
+
     //Should work if bord is empty
     it("should init if x = y = 5", () => {
       const b: Board = {width: 5, height: 5, data: [[], [], [], [], []]};
@@ -192,7 +207,7 @@ describe('Puissance4Service test init', () => {
       });
 
       it("should throw an error if data height don't have the same length", () => {
-        const b: Board = {width: 5, height: 2, data: [['RED'], ['YELLOW','RED','YELLOW'], [], []]};
+        const b: Board = {width: 5, height: 2, data: [['RED'], ['YELLOW','RED','YELLOW'], [], [], []]};
         const R = service.init(b);
         expect(R.error).toEqual('invalid data');
       });
