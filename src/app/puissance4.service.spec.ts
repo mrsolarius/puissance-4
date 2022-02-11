@@ -151,46 +151,21 @@ describe('Puissance4Service test init', () => {
   describe("should throw errors", () => {
     describe("should throw `invalid magnitudes` errors", () => {
       //Check invalide magnitude
-      it("should throw error if array is empty", () => {
-        const b: Board = {width: 1, height: 1, data: []};
+
+      it("should throw error if width is not an integer", () => {
+        const b: Board = {width: 1.8, height: 1, data: []};
         const R = service.init(b);
         expect(R.error).toEqual('invalid magnitudes');
         expect(service.board).toBe(emptyBoard);
       });
 
-      it("should throw error if array is empty with big width and height", () => {
-        const b: Board = {width: 5, height: 5, data: []};
+      it("should throw error if height is not an integer", () => {
+        const b: Board = {width: 1, height: 1.8, data: []};
         const R = service.init(b);
         expect(R.error).toEqual('invalid magnitudes');
         expect(service.board).toBe(emptyBoard);
       });
 
-      it("should throw error if width dimension are smaller than array length", () => {
-        const b: Board = {width: 4, height: 5, data: [['RED'], ['YELLOW']]};
-        const R = service.init(b);
-        expect(R.error).toEqual('invalid magnitudes');
-        expect(service.board).toBe(emptyBoard);
-      });
-
-      it("should throw error if height dimension are smaller than array column length", () => {
-        const b: Board = {
-          width: 5,
-          height: 4,
-          data: [['RED', 'YELLOW', 'RED', 'YELLOW', 'YELLOW'], ['YELLOW'], [], [], ['RED']]
-        };
-        const R = service.init(b);
-        expect(R.error).toEqual('invalid magnitudes');
-        expect(service.board).toBe(emptyBoard);
-      });
-
-      it("should throw error if both dimensions are smaller than array length", () => {
-        const b: Board = {width: 4, height: 3, data: [['RED', 'YELLOW', 'RED', 'YELLOW'], ['YELLOW']]};
-        const R = service.init(b);
-        expect(R.error).toEqual('invalid magnitudes');
-        expect(service.board).toBe(emptyBoard);
-      });
-
-      //Check invalide dimensions
       it("should throw error if width is negative", () => {
         const b: Board = {width: -2, height: 5, data: [['RED'], []]};
         const R = service.init(b);
@@ -212,17 +187,18 @@ describe('Puissance4Service test init', () => {
         expect(service.board).toBe(emptyBoard);
       });
 
-      it("should throw an error if both height and with are negative", () => {
-        const b: Board = {width: -2, height: -5, data: [[], []]};
-        const R = service.init(b);
-        expect(R.error).toEqual('invalid magnitudes');
-        expect(service.board).toBe(emptyBoard);
-      });
     });
     describe("should throw `invalid data` errors", () => {
       //Check invalide data
-      it("should throw an error if data don't have the same length", () => {
-        const b: Board = {width: 5, height: 5, data: [['RED','RED'], [], [], [],[]]};
+      it("should throw an error if data width don't have the same length", () => {
+        const b: Board = {width: 5, height: 5, data: [['RED','YELLOW'], [], [], []]};
+        const R = service.init(b);
+        expect(R.error).toEqual('invalid data');
+        expect(service.board).toBe(emptyBoard);
+      });
+
+      it("should throw an error if data height don't have the same length", () => {
+        const b: Board = {width: 5, height: 2, data: [['RED'], ['YELLOW','RED','YELLOW'], [], []]};
         const R = service.init(b);
         expect(R.error).toEqual('invalid data');
         expect(service.board).toBe(emptyBoard);
