@@ -156,35 +156,30 @@ describe('Puissance4Service test init', () => {
         const b: Board = {width: 1.8, height: 1, data: []};
         const R = service.init(b);
         expect(R.error).toEqual('invalid magnitudes');
-        expect(service.board).toBe(emptyBoard);
       });
 
       it("should throw error if height is not an integer", () => {
         const b: Board = {width: 1, height: 1.8, data: []};
         const R = service.init(b);
         expect(R.error).toEqual('invalid magnitudes');
-        expect(service.board).toBe(emptyBoard);
       });
 
       it("should throw error if width is negative", () => {
         const b: Board = {width: -2, height: 5, data: [['RED'], []]};
         const R = service.init(b);
         expect(R.error).toEqual('invalid magnitudes');
-        expect(service.board).toBe(emptyBoard);
       });
 
       it("should throw error if height is negative", () => {
         const b: Board = {width: 2, height: -5, data: [['RED'], []]};
         const R = service.init(b);
         expect(R.error).toEqual('invalid magnitudes');
-        expect(service.board).toBe(emptyBoard);
       });
 
       it("should return an error if x || y <= 0", () => {
         const b: Board = {width: 0, height: 0, data: []};
         const R = service.init(b);
         expect(R.error).toEqual('invalid magnitudes');
-        expect(service.board).toBe(emptyBoard);
       });
 
     });
@@ -194,14 +189,12 @@ describe('Puissance4Service test init', () => {
         const b: Board = {width: 5, height: 5, data: [['RED','YELLOW'], [], [], []]};
         const R = service.init(b);
         expect(R.error).toEqual('invalid data');
-        expect(service.board).toBe(emptyBoard);
       });
 
       it("should throw an error if data height don't have the same length", () => {
         const b: Board = {width: 5, height: 2, data: [['RED'], ['YELLOW','RED','YELLOW'], [], []]};
         const R = service.init(b);
         expect(R.error).toEqual('invalid data');
-        expect(service.board).toBe(emptyBoard);
       });
 
       it("should throw an error if total of red and yellow token are different", () => {
@@ -215,7 +208,6 @@ describe('Puissance4Service test init', () => {
         };
         const R = service.init(b);
         expect(R.error).toEqual('invalid data');
-        expect(service.board).toBe(emptyBoard);
       });
 
       it("should throw an error if there is two more red token than yellow one", () => {
@@ -229,7 +221,6 @@ describe('Puissance4Service test init', () => {
         };
         const R = service.init(b);
         expect(R.error).toEqual('invalid data');
-        expect(service.board).toBe(emptyBoard);
       });
 
       it("should throw an error if the bord is full of red token", () => {
@@ -243,7 +234,6 @@ describe('Puissance4Service test init', () => {
         };
         const R = service.init(b);
         expect(R.error).toEqual('invalid data');
-        expect(service.board).toBe(emptyBoard);
       });
 
       it("should throw an error if the board is full of yellow token", () => {
@@ -257,7 +247,6 @@ describe('Puissance4Service test init', () => {
         };
         const R = service.init(b);
         expect(R.error).toEqual('invalid data');
-        expect(service.board).toBe(emptyBoard);
       });
     });
   });
@@ -1060,5 +1049,19 @@ describe('Puissance4Service test winner', () => {
     expect(service.winner(5)).toEqual("NONE")
   });
 
+  it("should not return winer if nb is not integer", () => {
+    const gb2 = genBoard(` |
+                           |
+                           |
+                           |
+                           |
+                           |RRR
+                           |YYYR
+                           |-------`);
+    if (gb2.error === undefined) {
+      service.init(gb2.board);
+      expect(service.winner(1.2)).toEqual("NONE")
+    }
+  });
 })
 ;
