@@ -62,7 +62,7 @@ export class Puissance4Service implements Puissance4Interface {
     if (columnIndex < 0 || columnIndex >= this.board.width || !Number.isInteger(columnIndex)) return {error: 'out of range'};
     if (this.board.data[columnIndex].length === this.board.height) return {error: 'column is full'};
     if(token === 'RED'){
-      if (!(nbTokensInBoard(this.board,'RED') == nbTokensInBoard(this.board,'YELLOW') || nbTokensInBoard(this.board,'RED') == 0)) return {error: 'not your turn'};
+      if (!(nbTokensInBoard(this.board,'RED') == nbTokensInBoard(this.board,'YELLOW'))) return {error: 'not your turn'};
     }else{
       if (!(nbTokensInBoard(this.board,'YELLOW')+1 == nbTokensInBoard(this.board,'RED'))) return {error: 'not your turn'};
     }

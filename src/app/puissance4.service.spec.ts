@@ -311,6 +311,10 @@ describe('Puissance4Service test play', () => {
         service.init(gb2.board);
         const R = service.play('YELLOW', 2);
         expect(R.error).toBeUndefined();
+        if (R.error === undefined) {
+          expect(R.board).toBe(service.board);
+        }
+        expect(service.board.data[0][0]).toEqual('RED');
         expect(service.board.data[2][0]).toEqual('YELLOW');
       }
       expect(gb2.error).toBeUndefined();
@@ -328,6 +332,10 @@ describe('Puissance4Service test play', () => {
         service.init(gb2.board);
         const R = service.play('YELLOW', 0);
         expect(R.error).toBeUndefined();
+        if (R.error === undefined) {
+          expect(R.board).toBe(service.board);
+        }
+        expect(service.board.data[0][0]).toEqual('RED');
         expect(service.board.data[0][1]).toEqual('YELLOW');
       }
       expect(gb2.error).toBeUndefined();
@@ -345,7 +353,13 @@ describe('Puissance4Service test play', () => {
         service.init(gb2.board);
         const R = service.play('YELLOW', 1);
         expect(R.error).toBeUndefined();
-        expect(service.board.data[1][1]).toEqual('YELLOW');
+        if (R.error === undefined) {
+          expect(R.board).toBe(service.board);
+        }
+        expect(service.board.data[0][0]).toBe('RED');
+        expect(service.board.data[0][1]).toBe('YELLOW');
+        expect(service.board.data[1][0]).toBe('RED');
+        expect(service.board.data[1][1]).toBe('YELLOW');
       }
       expect(gb2.error).toBeUndefined();
     });
@@ -362,6 +376,13 @@ describe('Puissance4Service test play', () => {
         service.init(gb2.board);
         const R = service.play('RED', 1);
         expect(R.error).toBeUndefined();
+        if (R.error === undefined) {
+          expect(R.board).toBe(service.board);
+        }
+        expect(service.board.data[0][0]).toEqual('RED');
+        expect(service.board.data[1][0]).toEqual('RED');
+        expect(service.board.data[0][1]).toEqual('YELLOW');
+        expect(service.board.data[1][1]).toEqual('YELLOW');
         expect(service.board.data[1][2]).toEqual('RED');
       }
       expect(gb2.error).toBeUndefined();
@@ -380,7 +401,16 @@ describe('Puissance4Service test play', () => {
         service.init(gb2.board);
         const R = service.play('RED', 0);
         expect(R.error).toBeUndefined();
+        if (R.error === undefined) {
+          expect(R.board).toBe(service.board);
+        }
         expect(service.board.data[0][6]).toEqual('RED');
+        expect(service.board.data[0][5]).toEqual('YELLOW');
+        expect(service.board.data[0][4]).toEqual('RED');
+        expect(service.board.data[0][3]).toEqual('YELLOW');
+        expect(service.board.data[0][2]).toEqual('RED');
+        expect(service.board.data[0][1]).toEqual('YELLOW');
+        expect(service.board.data[0][0]).toEqual('RED');
       }
       expect(gb2.error).toBeUndefined();
     });
@@ -398,7 +428,17 @@ describe('Puissance4Service test play', () => {
         service.init(gb2.board);
         const R = service.play('YELLOW', 0);
         expect(R.error).toBeUndefined();
+        if (R.error === undefined) {
+          expect(R.board).toBe(service.board);
+        }
         expect(service.board.data[0][6]).toEqual('YELLOW');
+        expect(service.board.data[0][5]).toEqual('RED');
+        expect(service.board.data[0][4]).toEqual('YELLOW');
+        expect(service.board.data[0][3]).toEqual('RED');
+        expect(service.board.data[0][2]).toEqual('YELLOW');
+        expect(service.board.data[0][1]).toEqual('RED');
+        expect(service.board.data[0][0]).toEqual('YELLOW');
+        expect(service.board.data[0][1]).toEqual('RED');
       }
       expect(gb2.error).toBeUndefined();
     });
@@ -416,7 +456,11 @@ describe('Puissance4Service test play', () => {
         service.init(gb2.board);
         const R = service.play('YELLOW', 6);
         expect(R.error).toBeUndefined();
+        if (R.error === undefined) {
+          expect(R.board).toEqual(service.board);
+        }
         expect(service.board.data[6][0]).toEqual('YELLOW');
+        expect(service.board.data[0][0]).toEqual('RED');
       }
     });
   });
