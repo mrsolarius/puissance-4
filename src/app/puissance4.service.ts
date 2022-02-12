@@ -11,7 +11,11 @@ import {
 } from './puissance4.data';
 
 type Steps = -1 | 0 | 1
-type Directions = Exclude<{ [W in Steps]: { [H in Steps]: [width: W, height: H] }[Steps] }[Steps], [0, 0]>;
+type Directions = Exclude<{
+  [W in Steps]: {
+    [H in Steps]: [width: W, height: H]
+  }[Steps]
+}[Steps], [0, 0]>;
 
 @Injectable({
   providedIn: 'root'
