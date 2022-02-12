@@ -10,6 +10,10 @@ import {
   winnerReturns
 } from './puissance4.data';
 
+type Steps = -1 | 0 | 1
+type Directions = [width:Steps, height:Steps];
+type WinTokenReturns = number | {error: 'not token here'} | {error: 'out of range'} | {error: 'invalid direction'};
+
 @Injectable({
   providedIn: 'root'
 })
@@ -91,7 +95,27 @@ export class Puissance4Service implements Puissance4Interface {
    * @returns the token of the winner if any, NONE otherweise
    */
   winner(nb: number): winnerReturns {
-    return 'NONE';
+    if (nb<3 || !Number.isInteger(nb)) return 'NONE';
+    const possibleDirection : Directions[] = [
+      [0,1],
+      [1,1],
+      [1,0],
+      [1,-1],
+      [0,-1],
+      [-1,-1],
+      [-1,0],
+      [-1,1]
+    ];
+
+    for (let columnIndex = 0; columnIndex < this.board.data.length; columnIndex++) {
+      for (let lineIndex = 0; lineIndex < this.board.data[columnIndex].length; lineIndex++) {
+        for (let direction of possibleDirection) {
+          const nbTokens = nbTokensInDirection(this.board,columnIndex, lineIndex, direction);
+          if (nbTokens >= nb) return this.board.data[columnIndex][lineIndex];
+        }
+      }
+    }
+    return 'NONE'
   }
 }
 
@@ -107,4 +131,34 @@ function nbTokensInBoard(board:Board,token: Token): number {
     //Filter selected tokens to get number of selected tokens in column
     return acc + column.filter(t => t == token).length;
   }, 0);
+}
+
+/**
+ * Get the number of tokens in a direction
+ * @param board The board where to count the tokens
+ * @param columnIndex The column index where to start the search
+ * @param lineIndex The line index where to start the search
+ * @param direction The direction to search
+ * @returns The number of selected tokens in the direction
+ * @returns {error: 'out of range'} in case columnIndex or lineIndex are not in the board or not integers
+ * @returns {error: 'not token here'} in case token is not a token at the columnIndex and lineIndex
+ * @returns {error: 'invalid direction'} in case direction is not a valid direction
+ */
+function nbTokensInDirection(board:Board,columnIndex: number, lineIndex: number, direction: Directions): WinTokenReturns {
+  if (columnIndex < 0 || columnIndex >= board.width || !Number.isInteger(columnIndex)) return {error: 'out of range'};
+  if (lineIndex < 0 || lineIndex >= board.height || !Number.isInteger(lineIndex)) return {error: 'out of range'};
+  if (board.data[columnIndex][lineIndex]===undefined) return {error: 'not token here'};
+  if (direction[0] === 0 && direction[1] === 0) return {error: 'invalid direction'};
+
+  let nbTokens = 0;
+  const token = board.data[columnIndex][lineIndex];
+  let currentHeight=columnIndex, currentWidth = lineIndex;
+  while (board.data[currentHeight]?.[currentWidth] === token && currentHeight >=0 && currentWidth >=0) {
+    if(board.data[currentHeight][currentWidth] === token) {
+      nbTokens++;
+      currentHeight += direction[1];
+      currentWidth += direction[0];
+    }
+  }
+  return nbTokens;
 }
