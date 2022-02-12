@@ -12,7 +12,6 @@ import {
 
 type Steps = -1 | 0 | 1
 type Directions = [width:Steps, height:Steps];
-type WinTokenReturns = number | {error: 'not token here'} | {error: 'out of range'} | {error: 'invalid direction'};
 
 @Injectable({
   providedIn: 'root'
