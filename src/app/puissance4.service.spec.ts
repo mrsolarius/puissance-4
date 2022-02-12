@@ -580,7 +580,7 @@ describe('Puissance4Service test play', () => {
     });
   });
 });
-/*
+
 describe('Puissance4Service test winner', () => {
   let service: Puissance4Service;
   let empty7x5: Board;
@@ -908,7 +908,7 @@ describe('Puissance4Service test winner', () => {
       expect(gb2.error).toBeUndefined();
     });
 
-    it("should return winner for red with 5 tokens place in left diagonal", () => {
+    it("should return winner for red with 2 tokens place in left diagonal", () => {
       const gb2 = genBoard(` |
                            |
                            |
@@ -925,7 +925,7 @@ describe('Puissance4Service test winner', () => {
       expect(gb2.error).toBeUndefined();
     });
 
-    it("should return winner for yellow with 5 tokens place in left diagonal", () => {
+    it("should return winner for yellow with 2 tokens place in left diagonal", () => {
       const gb2 = genBoard(` |
                            |
                            |
@@ -1060,6 +1060,7 @@ describe('Puissance4Service test winner', () => {
         }
         expect(gb2.error).toBeUndefined();
       });
+      /*
       it('red should win in priority with 3 tokens in right diagonal', () => {
         const gb2 = genBoard(` |
                            |
@@ -1095,7 +1096,7 @@ describe('Puissance4Service test winner', () => {
           expect(service.winner(4)).toEqual('NONE');
         }
         expect(gb2.error).toBeUndefined();
-      });
+      });*/
     });
   });
 
@@ -1122,4 +1123,4 @@ describe('Puissance4Service test winner', () => {
       expect(service.winner(1.2)).toEqual("NONE")
     }
   });
-});*/
+});
